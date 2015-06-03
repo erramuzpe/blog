@@ -54,7 +54,7 @@ def compute_MI(in_file, mask_file, bins):
 
 In both of them a fMRI file and a mask are needed, and for the MI calculation a variable "bins" is also needed. This variable is the number of states that the user wants the signals to be discretized to. 
 
-This brings up a new problem; __how many states should we choose to discretize?__ We are working on this question and discussing whether we should introduce a measure that optimizes the number of bins/states to choose based on the principle of minimizing the information lost. Seems like we could implement some tests to choose a proper "number of states", we will have a further debate. 
+This brings up a new problem; __how many states should we choose to discretize?__ We are working on this question and discussing whether we should introduce a measure that optimizes the number of bins/states to choose, between other fitting entropy or correlation formalisms. Seems like we could implement some tests to choose a proper "number of states", we will have a further debate. 
 
 The discretization is done with the following helper function:
 
