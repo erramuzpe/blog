@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Advances of this week"
+title: "Analyzing correlations, entropies and causalities on brain data"
 date: 2015-06-03 16:41:23 +0200
 comments: true
 categories: 

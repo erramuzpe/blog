@@ -53,7 +53,7 @@ c) Mean values over subjects for MI20, MI50 and MI100. The principal diagonal wa
 
 {% img right /images/MI_bins.png 800 200 'image' 'image' %}
 
-In this last figure, it can be seen the repetition frequency for values that pass the threshold as calculated in b). The threshold is chosen as the 70% of the maxvalue of each mean-matrix. 
+In this last figure, it can be seen the repetition frequency for values that pass the threshold as calculated in b). The threshold is chosen as the 70% of the maxvalue of each mean-matrix. As seen in the previous figure, MI100 has a higher number of ROI pairs over the th value, but they are caused by the discretization effect and not unveiling interesting structures in the data. 
 
 {% img right /images/freq_MI.png 800 200 'image' 'image' %}
 
