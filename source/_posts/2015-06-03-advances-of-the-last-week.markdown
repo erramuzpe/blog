@@ -8,7 +8,7 @@ categories:
 
 Last week we dealt with some aspects on how to construct the workflows:
 
-- Develop fully functional ones where to interate functions. ✓ [Currently, to make transformations with  the data generated during the workflow, you have to specifically save it] 
+- Develop fully functional ones where to integrate functions. ✓ [Currently, to make transformations with  the data generated during the workflow, you have to specifically save it] 
 {% codeblock lang:py %}
 	np.savetxt(in_file+'_corr.txt', corr_mat)
 {% endcodeblock %}

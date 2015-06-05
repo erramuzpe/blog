@@ -25,11 +25,9 @@ In the other hand, results were quite robust between subjects, unveiling similar
 {% img center /images/rand_all.png 800 300 'image' 'image' %}
 
 
-b) Connectivity as unweighted was found by thresholding correlations with 0.7. Mean matrix over subjects was computed for each one of the measures.
+b) Connectivity as unweighted was found by thresholding correlations with 0.7. 
 
-{% img right /images/mean_all.png 800 200 'image' 'image' %}
-
-{% img right /images/all_dist.png 800 200 'image' 'image' %}
+{% img right /images/slopes.png 800 200 'image' 'image' %}
 
 
 c) Descriptively, mean values over subjects for MI20, MI50 and MI100. The principal diagonal was set to 0 for visualization purposes, as these values represent the Entropy and are higher that the rest. As can be seen, the reported structures change with the amount of bins chosen.  Having a very blurry effect in MI100 and structures better defined in MI20 (more small MI values, but structures better captured). This is mainly because having 100 states for a signal with 196 timepoints, reduces the possibility of repeating a state, thus, the maximum value of the MI increases (approximating the  maximum possible Entropy) as the number of bins increases. 
