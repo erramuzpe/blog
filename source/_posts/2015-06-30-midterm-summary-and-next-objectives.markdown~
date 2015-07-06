@@ -10,7 +10,7 @@ As we have reached the midterm of the project, We are writing this post as a sum
 
 #### **Theory and discussion**
 
-In one hand, we have been weekly discussing about the measures we had to implement, having debates about the information we could get from them and feasibility and practicality of these measures integrated in CPAC and in terms of development. Also, it has been a hard-work of researching and learning about new techniques and tools used in the field, linked not only to measures related to non-linear analysis of the series, but also to a wide variety of preprocessing techniques, optimization and python language learning. Our weekly discussions about data and integration of other imaging environments and other parts of CPAC (ie. FSL have been stimulating)
+In one hand, we have been weekly discussing about the measures we had to implement, having debates about the information we could get from them and feasibility and practicality of these measures integrated in CPAC and in terms of development. Also, it has been a hard-work of researching and learning about new techniques and tools used in the field, linked not only to measures related to non-linear analysis of the series, but also to a wide variety of preprocessing techniques, optimization and python language learning. Our weekly discussions about data and integration of other imaging environments and other parts of CPAC (ie. FSL have been stimulating).
 
 
 #### **Coding**

@@ -35,7 +35,6 @@ Additionally, the toolbox has several measures and helper functions some more co
   - Entropy Correlation Coefficient
   - Phase synchronization (as explained in my last entry)
   - Phase Locking Values
-  - Spectrum (Phase) Entropy
   - TE based in covariances for gaussian variables (no need of discretization).
   - Entropy Correlation Coefficient 
 - Helper functions:
@@ -95,7 +94,7 @@ Other practicalities I would like to point some TO-DO's and objectives towards t
 - Implement measures of multiscale dynamics .
 - We have now a primitive and easy version of calculating the numbers of bins via Equantization. We are discussing more advanced methods to do it and it is likely to develop an alternative. 
 - Related to frecuencies (develop using what we already have as a base):
-  - Implement Phase Entropy and Sample Entropies.
+  - Implement Sample Entropies.
   - Fingerprints -> Determine important frequencies. Use of the power spectrum. 
 
 
