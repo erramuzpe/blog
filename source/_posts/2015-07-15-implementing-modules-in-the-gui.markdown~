@@ -168,7 +168,7 @@ Short example of how to manage the inputs:
 
     if 1 in c.runIT:
         for strat in strat_list:
-	if 'mi' in c.MEASURES:
+            if 'mi' in c.MEASURES:
 
             pipeline = create_mi()
             pipeline.inputs.inputspec.in_file = c.input_image
