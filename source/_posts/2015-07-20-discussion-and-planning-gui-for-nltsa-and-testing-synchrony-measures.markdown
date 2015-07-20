@@ -1,27 +1,30 @@
 ---
 layout: post
 title: "Discussion and planning GUI for NLTSA and testing synchrony measures"
-date: 2015-07-20 16:00:33 +0200
+date: 2015-07-22 12:24:57 +0200
 comments: true
 categories: 
 ---
-
-
 
 We are trying to converge to an easy and clear design of the GUI of our toolbox that integrates in CPAC’s structure and allows users to use it. We are trying here to avoid redundant options in the workflow and it is becoming a quite difficult task, since we want the measures to be separated in differentiated subgroups, but at the same time, give the toolbox the possibility of using common functions (such as the extraction of the timeseries). It has to be non-redundant in this way, the most complicated thing will be the correct use of data structures (to take the ones that are already being generated from other modules in CPAC and to check if the series of a volume had been already extracted, in order to do not duplicate efforts). The design has to be generalizable enough that it can be used in other workflows. 
 
 ## ** Planning of the GUI for NLTSA module  **
 
-Diagram
+As the most important part of developing new software, it is always necessary to have a good developing plan. For the purpose of building the GUI for our toolbox, we have divided all our measures in 3 main groups:
 
-{% img center /images/GUI_diagram.png 800 800 'image' 'image' %}
+- Pre-Analysis measures: The ones that not correspond directly to NonLinearTimeSeriesAnalysis and can be applied directly into the extracted data. We can find here synchrony measures in time (correlation, partial correlation) and frequency domain (phase synchrony index, phase locking value).
+- Information Theory and Causality measures: The ones coming from the informative framework and causality. These measures involve the acquisition of information flow and sharing between variables (Mutual Information, Transfer Entropy, Granger Causality).
+- Scale free dynamics measures: This is the box that make use of the most advanced measures (fractality, avalanches, detrended fluctuation analysis, Hurst exponents). These measures are still pending of being developed (planned for August), so we have still not decided about the inputs and the outputs they are generating. 
 
-describe
+The schema shown above has been resumed in the next diagram. Most of the modules make use of other modules functions (we have tried to not being redundant with CPAC’s code). We have ensured that the helper functions developed for our toolbox are available also from outside our module. 
+
+{% img center /images/GUI_Diagram.png 800 800 'image' 'image' %}
+
 
 
 ## ** Implementation of the GUI **
 
-describe
+Following the instructions published in the previous post, there has been straightforward to build up the 3 subgroups, as they are quite similar between each other. The most important feature for us was the possibility of calculating the measures independently (there is no need of calculating all of them, the user can choose whether to apply the different measures without restriction). 
 
 {% img center /images/CPAC_GUI_1.png 800 800 'image' 'image' %}
 
@@ -29,16 +32,25 @@ describe
 
 {% img center /images/CPAC_GUI_3.png 800 800 'image' 'image' %}
 
-
-
+A serious work must be done in flow-controlling inside _cpac_pipeline.py_ to avoid repeating the operations present in the submodules (mainly, timeseries generation. Once that are generated, there is no point in extracting them again). Also, it is important to have well connected the toolbox to the main CPAC’s workflow and check whether the data has been previously extracted. Maybe we can talk at some point soon about this and listen to developers thoughts, comments in the post will be very welcomed. Also, we left the door open for interesting modifications that could happen (the 3rd submodule is still pending of being coded and we have in mind to deal with visualization and data presentation). The whole integration will be held in the last week of GSoC with the help of all collaborators and students. 
 
 ## ** Synchrony measures in ADHD data **
 
-#### ** aaa **
+As we are trying not to evaluate all our measures together at the end, this week we have tried extensively our new dataset from ADHD200 (specific information about the dataset and how we  did our first experiment in previous post[link[). 
 
-As we are trying not to evaluate our measures at the end, this week we have tried extensively our data in the dataset from ADHD200 (specific information about the dataset and how we  did our first systematic efforts to test workflows integrally with fMRI data and find if the results were coherent with the technique.
+We had two measures to test over this data, “phase synchrony index” (which is a self-informative value about the synchrony level of a specific signal) and “phase locking value” (which is the relation between the synchronicity of 2 variables). 
+
+We had two measures to test over this data, “phase synchrony index” or PSI (which is a self-informative value about the synchrony level of a specific signal) and “phase locking value” or PLV (which is the relation between the synchronicity of 2 variables). 
+
+#### ** Results **
+
+- The PSI is a single variable measure, so it is just an self-informative measure. First results showed that the data extracted with the cc400 and cc1000 parcellations had a low synchrony level (some of them looked totally desynchronized). Overall, there was not much to say about differences between ADHD patients and controls.
+
+- The PLV, however, showed that the synchrony between some of the signals was strong (>0.7). As these parcellations are randomly created and assigned, consecutive ROIs have not spatial relation and we thought that showing the usual matrixes was not going to be informative. So, for this measure, a sum of all PLV values was easily computed to see the “general synchrony” of each of the groups:
+
+ADHD patients: 27198.40
+
+Control patients: 23787.67
 
 
-
-Maybe we can talk at some point soon about developers thoughts on this.
 
