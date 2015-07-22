@@ -12,9 +12,9 @@ We are trying to converge to an easy and clear design of the GUI of our toolbox 
 
 As the most important part of developing new software, it is always necessary to have a good developing plan. For the purpose of building the GUI for our toolbox, we have divided all our measures in 3 main groups:
 
-- Pre-Analysis measures: The ones that not correspond directly to NonLinearTimeSeriesAnalysis and can be applied directly into the extracted data. We can find here synchrony measures in time (correlation, partial correlation) and frequency domain (phase synchrony index, phase locking value).
-- Information Theory and Causality measures: The ones coming from the informative framework and causality. These measures involve the acquisition of information flow and sharing between variables (Mutual Information, Transfer Entropy, Granger Causality).
-- Scale free dynamics measures: This is the box that make use of the most advanced measures (fractality, avalanches, detrended fluctuation analysis, Hurst exponents). These measures are still pending of being developed (planned for August), so we have still not decided about the inputs and the outputs they are generating. 
+-Pre-Analysis measures: The ones that not correspond directly to NonLinearTimeSeriesAnalysis and can be applied directly into the extracted data. We can find here synchrony measures in time (correlation, partial correlation) and frequency domain (phase synchrony index, phase locking value). Also, treatment of fingerprints and ICA timeseries extraction are due to be added in this submodule.
+-Information Theory and Causality measures: The ones coming from the informative framework and causality. These measures involve the acquisition of information flow and sharing between variables (Mutual Information, Transfer Entropy, Granger Causality Toolbox measures (MVGC, PWCGC)).
+-Scale free dynamics measures: This is the box that make use of the most advanced measures (fractality, avalanches, detrended fluctuation analysis, Hurst exponents). These measures are still pending of being developed (planned for August), so we have still not decided about the inputs and the outputs they are generating. 
 
 The schema shown above has been resumed in the next diagram. Most of the modules make use of other modules functions (we have tried to not being redundant with CPAC’s code). We have ensured that the helper functions developed for our toolbox are available also from outside our module. 
 
@@ -44,13 +44,13 @@ We had two measures to test over this data, “phase synchrony index” or PSI (
 
 #### ** Results **
 
-- The PSI is a single variable measure, so it is just an self-informative measure. First results showed that the data extracted with the cc400 and cc1000 parcellations had a low synchrony level (some of them looked totally desynchronized). Overall, there was not much to say about differences between ADHD patients and controls.
+The PSI is a single variable measure, so it is just an self-informative measure. First results showed that the data extracted with the cc400 and cc1000 parcellations had a low synchrony level (some of them looked totally desynchronized). Overall, there was not much to say about differences between ADHD patients and controls.
 
-- The PLV, however, showed that the synchrony between some of the signals was strong (>0.7). As these parcellations are randomly created and assigned, consecutive ROIs have not spatial relation and we thought that showing the usual matrixes was not going to be informative. So, for this measure, a sum of all PLV values was easily computed to see the “general synchrony” of each of the groups:
+The PLV, however, showed that the synchrony between some of the signals was strong (>0.7). As these parcellations are randomly created and assigned, consecutive ROIs have not spatial relation and showing the usual matrixes was not going to be informative. 
 
-ADHD patients: 27198.40
+## ** Solved GC VAR model calculation **
 
-Control patients: 23787.67
+We have changed the paradigm of measuring the residuals for the Granger Causality calculation. Instead of calculating the covariance matrix of the data, which was creating problems later with the VAR model, we have change this. Now, the residuals are calculated directly from the data (the regression model used was OLS using QR decomposition. Specifications in MVGC toolbox docs), without performing the calculation of the covariance matrix. 
 
-
+We performed a small evaluation of the PWGC over our ADHD200 dataset and results were not visually different between groups. We are working in an appropriate way of showing results coming from these measures. 
 
