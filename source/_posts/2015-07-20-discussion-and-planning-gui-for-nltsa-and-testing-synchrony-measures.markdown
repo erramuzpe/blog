@@ -12,9 +12,9 @@ We are trying to converge to an easy and clear design of the GUI of our toolbox 
 
 As the most important part of developing new software, it is always necessary to have a good developing plan. For the purpose of building the GUI for our toolbox, we have divided all our measures in 3 main groups:
 
--Pre-Analysis measures: The ones that not correspond directly to NonLinearTimeSeriesAnalysis and can be applied directly into the extracted data. We can find here synchrony measures in time (correlation, partial correlation) and frequency domain (phase synchrony index, phase locking value). Also, treatment of fingerprints and ICA timeseries extraction are due to be added in this submodule.
--Information Theory and Causality measures: The ones coming from the informative framework and causality. These measures involve the acquisition of information flow and sharing between variables (Mutual Information, Transfer Entropy, Granger Causality Toolbox measures (MVGC, PWCGC)).
--Scale free dynamics measures: This is the box that make use of the most advanced measures (fractality, avalanches, detrended fluctuation analysis, Hurst exponents). These measures are still pending of being developed (planned for August), so we have still not decided about the inputs and the outputs they are generating. 
+- Pre-Analysis measures: The ones that not correspond directly to NonLinearTimeSeriesAnalysis and can be applied directly into the extracted data. We can find here synchrony measures in time (correlation, partial correlation) and frequency domain (phase synchrony index, phase locking value). Also, treatment of fingerprints and ICA timeseries extraction are due to be added in this submodule.
+- Information Theory and Causality measures: The ones coming from the informative framework and causality. These measures involve the acquisition of information flow and sharing between variables (Mutual Information, Transfer Entropy, Granger Causality Toolbox measures (MVGC, PWCGC)).
+- Scale free dynamics measures: This is the box that make use of the most advanced measures (fractality, avalanches, detrended fluctuation analysis, Hurst exponents). These measures are still pending of being developed (planned for August), so we have still not decided about the inputs and the outputs they are generating. 
 
 The schema shown above has been resumed in the next diagram. Most of the modules make use of other modules functions (we have tried to not being redundant with CPAC’s code). We have ensured that the helper functions developed for our toolbox are available also from outside our module. 
 
@@ -36,7 +36,7 @@ A serious work must be done in flow-controlling inside _cpac_pipeline.py_ to avo
 
 ## ** Synchrony measures in ADHD data **
 
-As we are trying not to evaluate all our measures together at the end, this week we have tried extensively our new dataset from ADHD200 (specific information about the dataset and how we  did our first experiment in previous post[link[). 
+As we are trying not to evaluate all our measures together at the end, this week we have tried extensively our new dataset from ADHD200 (specific information about the dataset and how we  did our first experiment in [previous post](http://erramuzpe.github.io/C-PAC/blog/2015/07/09/testing-different-parcellations-over-ad-patients-data/) ). 
 
 We had two measures to test over this data, “phase synchrony index” (which is a self-informative value about the synchrony level of a specific signal) and “phase locking value” (which is the relation between the synchronicity of 2 variables). 
 
