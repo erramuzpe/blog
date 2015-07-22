@@ -38,8 +38,6 @@ A serious work must be done in flow-controlling inside _cpac_pipeline.py_ to avo
 
 As we are trying not to evaluate all our measures together at the end, this week we have tried extensively our new dataset from ADHD200 (specific information about the dataset and how we  did our first experiment in previous post[link[). 
 
-We had two measures to test over this data, “phase synchrony index” (which is a self-informative value about the synchrony level of a specific signal) and “phase locking value” (which is the relation between the synchronicity of 2 variables). 
-
 We had two measures to test over this data, “phase synchrony index” or PSI (which is a self-informative value about the synchrony level of a specific signal) and “phase locking value” or PLV (which is the relation between the synchronicity of 2 variables). 
 
 #### ** Results **
