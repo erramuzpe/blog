@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Clustering and Avalanche detection algorithms [IN PROGRESS]"
+title: "Clustering and Avalanche detection algorithms"
 date: 2015-08-14 13:10:51 +0200
 comments: true
 categories: 

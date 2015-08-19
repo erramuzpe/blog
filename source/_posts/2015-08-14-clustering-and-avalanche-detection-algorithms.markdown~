@@ -20,7 +20,86 @@ _To detect contiguous clusters of activated voxels (defined as those crossing th
 The implementation of this approach was straightforward, but it has many checks to do, so it is an algorithm to code very carefully. It is a first draft of the algorithm and the purpose was to have a functional procedure asap. In future revisions, I will try to rewrite it in a more “pythonic way”. 
 
 {% codeblock lang:py %}
-CODE HERE
+# Detects clusters after Point Processing a Brain 
+def cluster_detection(in_file):
+
+    import numpy as np
+    import os
+    import nibabel as nb
+    from CPAC.criticallity import point_process
+
+    # Treat fMRI image
+    img = nb.load(in_file)
+    data = img.get_data() 
+    (n_x, n_y, n_z, n_t) = data.shape
+    
+    # Get the PP data
+    pp_data = np.zeros((n_x, n_y, n_z, n_t))
+    for i_ in range(n_x):
+        for j_ in range(n_y):
+            for k_ in range(n_z):
+                voxel_data = data[i_,j_,k_,:] 
+                pp_data[i_,j_,k_,:] = point_process(voxel_data)
+    
+    cluster_graph_data_total = np.zeros((n_x, n_y, n_z, n_t))
+    for t_ in range(n_t):
+        time_slice = pp_data[:,:,:,t_]
+        cluster_graph_data = np.zeros((n_x, n_y, n_z))  
+        cluster_number = 1
+        
+        for i_ in range(n_x):
+            for j_ in range(n_y):
+                for k_ in range(n_z):
+                    
+                    if time_slice[i_,j_,k_] == 1: # is active, check if it has active neighboours
+                        if time_slice[i_-1,j_,k_] or time_slice[i_+1,j_,k_] \
+                        or time_slice[i_,j_-1,k_] or time_slice[i_,j_+1,k_] \
+                        or time_slice[i_,j_,k_-1] or time_slice[i_,j_,k_+1]:
+                            
+                            if cluster_graph_data[i_,j_,k_] == 0: # if is not in any previous cluster
+                                this_cluster = (cluster_graph_data[i_-1,j_,k_] or cluster_graph_data[i_+1,j_,k_] \
+                                or cluster_graph_data[i_,j_-1,k_] or cluster_graph_data[i_,j_+1,k_] \
+                                or cluster_graph_data[i_,j_,k_-1] or cluster_graph_data[i_,j_,k_+1])
+                                
+                                if this_cluster == 0: #no neighbours in any previous cluster neither
+                                    this_cluster = cluster_number
+                                    cluster_graph_data[i_,j_,k_] = this_cluster
+                                    cluster_number = cluster_number + 1
+                                else: 
+                                    #check cluster union
+                                    merge_clusters = np.unique([cluster_graph_data[i_-1,j_,k_], cluster_graph_data[i_+1,j_,k_] \
+                                , cluster_graph_data[i_,j_-1,k_], cluster_graph_data[i_,j_+1,k_] \
+                                , cluster_graph_data[i_,j_,k_-1], cluster_graph_data[i_,j_,k_+1]])
+                                    merge_clusters = merge_clusters[1:] #quit first value = 0
+                                    
+                                    this_cluster = merge_clusters[0]
+                                    cluster_graph_data[i_,j_,k_] = this_cluster
+                                    for cluster_to_merge in merge_clusters[1:]:
+                                        cluster_graph_data[cluster_graph_data == cluster_to_merge] = this_cluster
+                                    
+                                    
+                            else:
+                                this_cluster = cluster_graph_data[i_,j_,k_]
+                                
+                            #find neighbours and give cluster_number
+                            if time_slice[i_-1,j_,k_] == 1:
+                                cluster_graph_data[i_-1,j_,k_] = this_cluster
+                            elif time_slice[i_+1,j_,k_] == 1:
+                                cluster_graph_data[i_+1,j_,k_] = this_cluster
+                            elif time_slice[i_,j_-1,k_] == 1:
+                                cluster_graph_data[i_,j_-1,k_] = this_cluster
+                            elif time_slice[i_,j_+1,k_] == 1:
+                                cluster_graph_data[i_,j_+1,k_] = this_cluster
+                            elif time_slice[i_,j_,k_-1] == 1:
+                                cluster_graph_data[i_,j_,k_-1] = this_cluster
+                            elif time_slice[i_,j_,k_+1] == 1:
+                                
+                    # if not == 1¡, keep the search 
+                        # if not neighbours, keep the search
+                       
+        cluster_graph_data_total[:,:,:,t_] = cluster_graph_data 
+        
+    return cluster_graph_data_total 
 {% endcodeblock %}
 
 
@@ -33,7 +112,85 @@ _The point process is defined by the sequences of time points at which the BOLD 
 
 
 {% codeblock lang:py %}
-CODE HERE
+def avalanche_detec(cluster_file):
+    
+    import numpy as np
+    import nibabel as nb
+    import os
+
+    # Treat fMRI image
+    img = nb.load(cluster_file)
+    cluster_data = img.get_data()
+    (n_x, n_y, n_z, n_t) = cluster_data.shape
+    
+    avalanche_id_total = np.zeros((n_x, n_y, n_z, n_t))
+    avalanche_id_num = 1
+            
+    for t_ in range(n_t):
+     
+        if t_ == 0: #if first timestep, all are candidates
+            time_slice = cluster_data[:,:,:,t_]          
+            time_slice_fut = cluster_data[:,:,:,t_+1]
+            
+            avalanche_id_now = avalanche_id_total[:,:,:,t_]   
+            avalanche_id_fut = avalanche_id_total[:,:,:,t_+1]   
+
+            for cluster in np.unique(cluster_data[:,:,:,t_])[1:]: #iterate over clusters
+                # NEW AVALANCHE CASE
+                if np.count_nonzero(time_slice_fut[(time_slice==cluster)]) >= 1 :                
+                    avalanche_id_now[(time_slice==cluster)] = avalanche_id_num 
+                    
+                    for value in np.unique(time_slice_fut[(time_slice==cluster)])[1:]:
+                        avalanche_id_fut[(time_slice_fut==value)] = avalanche_id_num
+                    
+                    avalanche_id_num = avalanche_id_num +1
+                    
+                    avalanche_id_total[:,:,:,t_] = avalanche_id_now
+                    avalanche_id_total[:,:,:,t_+1] = avalanche_id_fut
+                    
+                    
+        elif t_ < (n_t-1):  #if not first timestep, check previous
+            print t_
+            #time_slice_past = cluster_data[:,:,:,t_-1]
+            time_slice = cluster_data[:,:,:,t_]          
+            time_slice_fut = cluster_data[:,:,:,t_+1]
+            
+            avalanche_id_now = avalanche_id_total[:,:,:,t_]   
+            avalanche_id_fut = avalanche_id_total[:,:,:,t_+1] 
+            
+            for cluster in np.unique(cluster_data[:,:,:,t_])[1:]:
+                # PREVIOUS AVALANCHE CASE
+                if np.count_nonzero(avalanche_id_now[(time_slice==cluster)]) != 0: 
+                    if np.count_nonzero(time_slice_fut[(time_slice==cluster)]) >= 1 :
+
+                        this_avalanche = avalanche_id_now[(time_slice==cluster)][0]
+                        
+                        for value in np.unique(time_slice_fut[(time_slice==cluster)])[1:]: 
+                            avalanche_id_fut[(time_slice_fut==value)] = this_avalanche
+                        
+                        avalanche_id_total[:,:,:,t_+1] = avalanche_id_fut 
+                
+                # NEW AVALANCHE CASE
+                elif np.count_nonzero(avalanche_id_now[(time_slice==cluster)]) == 0: #and np.count_nonzero(time_slice_past[(time_slice==cluster)]) == 0:
+                    if np.count_nonzero(time_slice_fut[(time_slice==cluster)]) >= 1 :
+                        
+                        avalanche_id_now[(time_slice==cluster)] = avalanche_id_num
+                        
+                        for value in np.unique(time_slice_fut[(time_slice==cluster)])[1:]:
+                            avalanche_id_fut[(time_slice_fut==value)] = avalanche_id_num
+                            
+                        avalanche_id_num = avalanche_id_num + 1
+                   
+                        avalanche_id_total[:,:,:,t_] = avalanche_id_now
+                        avalanche_id_total[:,:,:,t_+1] = avalanche_id_fut    
+    
+    
+    img_new = nb.Nifti1Image(avalanche_id_total, header=img.get_header(), affine=img.get_affine())
+    # Reconstruct the 4D volume
+    cond_rm_file = os.path.join(os.getcwd(), 'avalanche.nii.gz')
+    img_new.to_filename(cond_rm_file)
+    
+    return avalanche_id_total 
 {% endcodeblock %}
 
 
