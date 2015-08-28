@@ -92,6 +92,9 @@ def cond_rm(in_file, seed_location):
                 # LOGIC AND (target/seed) and count(signal == 1), that will give you the X/r parameter [0,1]
                 K[i_,j_,k_] = np.count_nonzero(np.logical_and(pp_seed_data,pp_target_data))/float(r)
     
+    #create img with K values
+    img_new = nb.Nifti1Image(K, header=img.get_header(), affine=img.get_affine())
+
     # Reconstruct the 3D volume
     cond_rm_file = os.path.join(os.getcwd(), 'cond_rm.nii.gz')
     img.to_filename(cond_rm_file)
