@@ -96,6 +96,6 @@ def PLV(X, Y):
     return np.sqrt(np.mean(np.cos(psi))**2 + np.mean(np.sin(psi))**2) #PLV_value calculated with the module
 {% endcodeblock %}
 
-Some examples will be shown in the next entry of the blog
+Some examples with regard of phase synchronization measures will be shown in the next entry of the blog.
 
 

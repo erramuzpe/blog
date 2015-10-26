@@ -64,15 +64,7 @@ Which, translated to python, is:
 
 {% codeblock lang:py %}
 def phase_sync(X): # Computes the PS_value as explained in Ponce et al. 2015
- 
-    import numpy as np
-    import scipy.signal.signaltools as sigtool
-
-    htx = sigtool.hilbert(X)
-    # This converts (real, imag) to an angle
-    px = np.angle(htx)
-        
-    return np.sqrt(np.mean(np.cos(px))**2 + np.mean(np.sin(px))**2) #PS_value calculated with the module
+#this code is wrong, contact the author
 {% endcodeblock %}
 
 For quantifying the pairwise phase relation between two given brain regions (timeseries) _k_ and _l_, Phase-Locking Value (PLV) has to be calculated as:
@@ -83,17 +75,7 @@ Again, translated to python:
 
 {% codeblock lang:py %}
 def PLV(X, Y):
-    import numpy as np
-    import scipy.signal.signaltools as sigtool
-
-    htx = sigtool.hilbert(X)
-    hty = sigtool.hilbert(Y)
-    px = np.angle(htx)
-    py = np.angle(hty)
-    
-    psi = px - py
-    
-    return np.sqrt(np.mean(np.cos(psi))**2 + np.mean(np.sin(psi))**2) #PLV_value calculated with the module
+#this code is wrong, contact the author
 {% endcodeblock %}
 
 Some examples with regard of phase synchronization measures will be shown in the next entry of the blog.
